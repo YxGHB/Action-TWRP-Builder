@@ -82,11 +82,24 @@ jobs:
             libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools \
             imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python3 tar
 
+   # - name: Install OpenJDK
+    #  uses: actions/setup-java@v4
+     # with:
+      #  distribution: 'zulu'
+       # java-version: '11'
+
+
     - name: Install OpenJDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: '1.8.0_152'
+            uses: actions/setup-java@v4
+            with:
+              distribution: 'zulu'
+              java-version: '8'
+              java-package: 'jdk'
+              check-latest: false
+              server-id: 'github'
+              server-username: ${{ secrets.GITHUB_ACTOR }}
+              server-password: ${{ secrets.GITHUB_TOKEN }}
+              overwrite-settings: true
 
     - name: Setup SSH Keys
       if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') || 
