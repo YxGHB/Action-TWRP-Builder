@@ -62,11 +62,14 @@ jobs:
         echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
         echo "::endgroup::"
 
+    # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
       uses: actions/checkout@v4
 
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup
       uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps
 
     - name: Prepare the environment
       run: |
@@ -110,12 +113,6 @@ jobs:
         git config --global user.email "azwhikaru+37921907@github.com"
         repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       id: pwd
-
-    - name: Fix default.xml (Remove Duplicate Paths)
-      run: |
-        sed -i '/<project path="frameworks\/base" name="LineageOS\/android_frameworks_base" \/>/d' workspace/.repo/manifests/default.xml
-        echo '    <project path="frameworks/base" name="LineageOS/android_frameworks_base" />' >> workspace/.repo/manifests/default.xml
-      working-directory: workspace
 
     - name: Repo Sync
       run: |
